@@ -4,10 +4,10 @@ public class Frame {
     public static final String GUTTER_BALL = "-";
     public static final String STRIKE = "X";
     public static final String SPARE = "/";
-    private String frame;
+    private String rolls;
 
-    public Frame(String frame) {
-        this.frame = frame;
+    public Frame(String rolls) {
+        this.rolls = rolls;
     }
 
     boolean isSpecialScore() {
@@ -23,14 +23,14 @@ public class Frame {
     }
 
     char getRollOne() {
-        char nextRoll = frame.charAt(0);
+        char nextRoll = rolls.charAt(0);
         if (isGutterBall(nextRoll))
             nextRoll = '0';
 
         return nextRoll;
     }
     char getRollTwo() {
-        char nextRoll1 = frame.charAt(1);
+        char nextRoll1 = rolls.charAt(1);
         if (isGutterBall(nextRoll1))
             nextRoll1 = '0';
 
@@ -40,12 +40,12 @@ public class Frame {
 
     boolean isSpareFrame() {
 
-        return frame.contains(SPARE);
+        return rolls.contains(SPARE);
     }
 
     boolean isStrikeFrame() {
 
-        return frame.contains(STRIKE);
+        return rolls.contains(STRIKE);
     }
      boolean isGutterBall(char roll) {
         return String.valueOf(roll).equals(GUTTER_BALL);
