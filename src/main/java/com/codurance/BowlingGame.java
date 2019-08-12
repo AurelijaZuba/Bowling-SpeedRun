@@ -45,6 +45,11 @@ public class BowlingGame {
     }
 
     private int scoreFrameWithStrike(String nextFrame) {
+        if(isSpecialScore(nextFrame)){
+            char nextRoll = getRollOne(nextFrame);
+            return 10 + (Character.getNumericValue(nextRoll) + (10 - Character.getNumericValue(nextRoll)));
+        }
+
         char nextRoll = getRollOne(nextFrame);
         char nextRoll1 = getRollTwo(nextFrame);
 
@@ -68,6 +73,7 @@ public class BowlingGame {
         char nextRoll1 = frame.charAt(1);
         if(isGutterBall(nextRoll1))
             nextRoll1 = '0';
+
         return nextRoll1;
     }
 
