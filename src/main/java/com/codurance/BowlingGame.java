@@ -47,13 +47,17 @@ public class BowlingGame {
     private int scoreFrameWithStrike(String nextFrame) {
         if(isSpecialScore(nextFrame)){
             char nextRoll = getRollOne(nextFrame);
-            return 10 + (Character.getNumericValue(nextRoll) + (10 - Character.getNumericValue(nextRoll)));
+            return 10 + (Character.getNumericValue(nextRoll) + calculateSpareRollValue(nextRoll));
         }
 
-        char nextRoll = getRollOne(nextFrame);
-        char nextRoll1 = getRollTwo(nextFrame);
+        char nextRoll1 = getRollOne(nextFrame);
+        char nextRoll2 = getRollTwo(nextFrame);
 
-        return 10 + (Character.getNumericValue(nextRoll) + Character.getNumericValue(nextRoll1));
+        return 10 + (Character.getNumericValue(nextRoll1) + Character.getNumericValue(nextRoll2));
+    }
+
+    private int calculateSpareRollValue(char nextRoll) {
+        return 10 - Character.getNumericValue(nextRoll);
     }
 
 
