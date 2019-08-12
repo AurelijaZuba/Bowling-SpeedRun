@@ -45,38 +45,38 @@ public class BowlingGame {
     }
 
     private int scoreFrameWithStrike(String nextFrame) {
-        char nextRoll = nextFrame.charAt(0);
-        if(isGutterBall(nextRoll))
-            nextRoll = '0';
+        char nextRoll = getRollOne(nextFrame);
+        char nextRoll1 = getRollTwo(nextFrame);
 
-        char nextRoll1 = nextFrame.charAt(1);
-        if(isGutterBall(nextRoll1))
-            nextRoll1 = '0';
-
-        return 10 +
-                (Character.getNumericValue(nextRoll) +
-                        Character.getNumericValue(nextRoll1));
+        return 10 + (Character.getNumericValue(nextRoll) + Character.getNumericValue(nextRoll1));
     }
 
+
     private int scoreFrameWithSpare(String nextFrame) {
-        char nextRoll = nextFrame.charAt(0);
-        if(isGutterBall(nextRoll))
-            nextRoll = '0';
+        char nextRoll = getRollOne(nextFrame);
         return 10 + Character.getNumericValue(nextRoll);
     }
 
-    private int scoreFrame(String rolls) {
-        char roll1 = rolls.charAt(0);
-        char roll2 = rolls.charAt(1);
-
-        if(isGutterBall(roll1))
-            roll1 = '0';
-        if(isGutterBall(roll2))
-            roll2 = '0';
+    private int scoreFrame(String frame) {
+        char roll1 = getRollOne(frame);
+        char roll2 = getRollTwo(frame);
 
         return (Character.getNumericValue(roll1) + Character.getNumericValue(roll2));
     }
 
+    private char getRollTwo(String frame) {
+        char nextRoll1 = frame.charAt(1);
+        if(isGutterBall(nextRoll1))
+            nextRoll1 = '0';
+        return nextRoll1;
+    }
+
+    private char getRollOne(String frame) {
+        char nextRoll = frame.charAt(0);
+        if(isGutterBall(nextRoll))
+            nextRoll = '0';
+        return nextRoll;
+    }
     private boolean isGutterBall(char roll) {
         return String.valueOf(roll).equals(GUTTER_BALL);
     }
