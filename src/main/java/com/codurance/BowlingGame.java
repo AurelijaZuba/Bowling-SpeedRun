@@ -13,6 +13,9 @@ public class BowlingGame {
     }
 
     private int scoreFrame(String rolls) {
+        if(rolls.contains("X"))
+            return 10;
+
         char roll1 = rolls.charAt(0);
         char roll2 = rolls.charAt(1);
 
