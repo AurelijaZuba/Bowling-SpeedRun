@@ -13,14 +13,11 @@ public class BowlingGame {
     }
 
     private int scoreFrame(String rolls) {
-        if(rolls.contains("X"))
+        if(rolls.contains("X") || rolls.contains("/"))
             return 10;
 
         char roll1 = rolls.charAt(0);
         char roll2 = rolls.charAt(1);
-
-        if(roll1 == '/' || roll2 == '/')
-            return 10;
 
         if(roll1 == '-')
             roll1 = '0';
