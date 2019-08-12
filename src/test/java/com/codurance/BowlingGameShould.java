@@ -34,6 +34,8 @@ public class BowlingGameShould {
                 Arguments.of("X|1/|--|--|--|--|--|--|--|--|", 30),
                 Arguments.of("X|X|1-|--|--|--|--|--|--|--|", 33),
                 Arguments.of("X|X|1/|--|--|--|--|--|--|--|", 51),
+                Arguments.of("--|1/|X|--|--|--|--|--|--|--|", 30),
+                Arguments.of("X|X|X|--|--|--|--|--|--|--|", 60),
                 Arguments.of("11|11|11|11|11|11|11|11|11|11|", 20)
 
         );
