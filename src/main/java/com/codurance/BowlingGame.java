@@ -1,65 +1,64 @@
 package com.codurance;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
 public class BowlingGame {
 
-    public static final String SPARE = "/";
-    public static final String STRIKE = "X";
-    public static final String GUTTER_BALL = "-";
+//    private final Frame frame = new Frame();
 
     public int score(String scoreSheet) {
         String[] frames = scoreSheet.split("\\|");
 
+        List<Frame> framesArray = new ArrayList<>();
+        for (String rolls : frames) {
+            framesArray.add(new Frame(rolls));
+        }
         int results = 0;
         for (int i = 0; i < frames.length; i++) {
-            results += calculateFrameScore(frames, i);
+            results += calculateFrameScore(framesArray, i);
         }
 
         return results;
     }
 
-    private int calculateFrameScore(String[] frames, int i) {
-        String thisFrame = frames[i];
+    private int calculateFrameScore(List<Frame> frames, int i) {
+        Frame thisFrame = frames.get(i);
         int results = 0;
-        if (isSpecialScore(thisFrame)) {
-            String nextFrame = frames[i + 1];
-            if(isStrikeFrame(nextFrame)){
-                return (10 + 10 + Character.getNumericValue(getRollOne(frames[i + 2])));
+        if (thisFrame.isSpecialScore()) {
+            Frame nextFrame = frames.get(i + 1);
+            if (nextFrame.isStrikeFrame()) {
+                return (10 + 10 + Character.getNumericValue(frames.get(i + 2).getRollOne()));
             }
             results += scoreSpecial(thisFrame, nextFrame);
             return results;
         }
-        return scoreFrame(thisFrame);
+        return thisFrame.scoreFrame();
     }
 
-    private boolean isSpecialScore(String thisFrame) {
-        return isStrikeFrame(thisFrame) || isSpareFrame(thisFrame);
-    }
-
-    private int scoreSpecial(String thisFrame, String nextFrame) {
+    private int scoreSpecial(Frame thisFrame, Frame nextFrame) {
         int result = 0;
-        if (isStrikeFrame(thisFrame)) {
+        if (thisFrame.isStrikeFrame()) {
             return scoreFrameWithStrike(nextFrame);
         }
 
-        if (isSpareFrame(thisFrame)) {
+        if (thisFrame.isSpareFrame()) {
             return scoreFrameWithSpare(nextFrame);
         }
         return result;
     }
 
-    private int scoreFrameWithStrike(String nextFrame) {
+    private int scoreFrameWithStrike(Frame nextFrame) {
         int result = 0;
 
-//        if (isStrikeFrame(nextFrame)) {
-//            result += 10 + Character.getNumericValue(getRollOne(nextFrame)) + secondRoll;
-//        }
-        if (isSpareFrame(nextFrame)) {
-            char nextRoll = getRollOne(nextFrame);
+        if (nextFrame.isSpareFrame()) {
+            char nextRoll = nextFrame.getRollOne();
             result += 10 + (Character.getNumericValue(nextRoll) + calculateSpareRollValue(nextRoll));
         }
-        if (!isStrikeFrame(nextFrame) && !isSpareFrame(nextFrame)) {
-            char nextRoll1 = getRollOne(nextFrame);
-            char nextRoll2 = getRollTwo(nextFrame);
+        if (!nextFrame.isStrikeFrame() && !nextFrame.isSpareFrame()) {
+            char nextRoll1 = nextFrame.getRollOne();
+            char nextRoll2 = nextFrame.getRollTwo();
 
             result += 10 + (Character.getNumericValue(nextRoll1) + Character.getNumericValue(nextRoll2));
         }
@@ -72,43 +71,8 @@ public class BowlingGame {
     }
 
 
-    private int scoreFrameWithSpare(String nextFrame) {
-        char nextRoll = getRollOne(nextFrame);
+    private int scoreFrameWithSpare(Frame nextFrame) {
+        char nextRoll = nextFrame.getRollOne();
         return 10 + Character.getNumericValue(nextRoll);
-    }
-
-    private int scoreFrame(String frame) {
-        char roll1 = getRollOne(frame);
-        char roll2 = getRollTwo(frame);
-
-        return (Character.getNumericValue(roll1) + Character.getNumericValue(roll2));
-    }
-
-    private char getRollTwo(String frame) {
-        char nextRoll1 = frame.charAt(1);
-        if (isGutterBall(nextRoll1))
-            nextRoll1 = '0';
-
-        return nextRoll1;
-    }
-
-    private char getRollOne(String frame) {
-        char nextRoll = frame.charAt(0);
-        if (isGutterBall(nextRoll))
-            nextRoll = '0';
-
-        return nextRoll;
-    }
-
-    private boolean isGutterBall(char roll) {
-        return String.valueOf(roll).equals(GUTTER_BALL);
-    }
-
-    private boolean isSpareFrame(String thisFrame) {
-        return thisFrame.contains(SPARE);
-    }
-
-    private boolean isStrikeFrame(String thisFrame) {
-        return thisFrame.contains(STRIKE);
     }
 }
