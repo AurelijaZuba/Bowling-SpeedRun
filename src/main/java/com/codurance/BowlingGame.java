@@ -20,8 +20,11 @@ public class BowlingGame {
     private int calculateFrameScore(String[] frames, int i) {
         String thisFrame = frames[i];
         int results = 0;
-        if(isSpecialScore(thisFrame)) {
-            String nextFrame = frames[i+1];
+        if (isSpecialScore(thisFrame)) {
+            String nextFrame = frames[i + 1];
+            if(isStrikeFrame(nextFrame)){
+                return (10 + 10 + Character.getNumericValue(getRollOne(frames[i + 2])));
+            }
             results += scoreSpecial(thisFrame, nextFrame);
             return results;
         }
@@ -34,26 +37,34 @@ public class BowlingGame {
 
     private int scoreSpecial(String thisFrame, String nextFrame) {
         int result = 0;
-        if(isStrikeFrame(thisFrame)) {
+        if (isStrikeFrame(thisFrame)) {
             return scoreFrameWithStrike(nextFrame);
         }
 
-        if(isSpareFrame(thisFrame)){
+        if (isSpareFrame(thisFrame)) {
             return scoreFrameWithSpare(nextFrame);
         }
         return result;
     }
 
     private int scoreFrameWithStrike(String nextFrame) {
-        if(isSpecialScore(nextFrame)){
+        int result = 0;
+
+//        if (isStrikeFrame(nextFrame)) {
+//            result += 10 + Character.getNumericValue(getRollOne(nextFrame)) + secondRoll;
+//        }
+        if (isSpareFrame(nextFrame)) {
             char nextRoll = getRollOne(nextFrame);
-            return 10 + (Character.getNumericValue(nextRoll) + calculateSpareRollValue(nextRoll));
+            result += 10 + (Character.getNumericValue(nextRoll) + calculateSpareRollValue(nextRoll));
+        }
+        if (!isStrikeFrame(nextFrame) && !isSpareFrame(nextFrame)) {
+            char nextRoll1 = getRollOne(nextFrame);
+            char nextRoll2 = getRollTwo(nextFrame);
+
+            result += 10 + (Character.getNumericValue(nextRoll1) + Character.getNumericValue(nextRoll2));
         }
 
-        char nextRoll1 = getRollOne(nextFrame);
-        char nextRoll2 = getRollTwo(nextFrame);
-
-        return 10 + (Character.getNumericValue(nextRoll1) + Character.getNumericValue(nextRoll2));
+        return result;
     }
 
     private int calculateSpareRollValue(char nextRoll) {
@@ -75,7 +86,7 @@ public class BowlingGame {
 
     private char getRollTwo(String frame) {
         char nextRoll1 = frame.charAt(1);
-        if(isGutterBall(nextRoll1))
+        if (isGutterBall(nextRoll1))
             nextRoll1 = '0';
 
         return nextRoll1;
@@ -83,10 +94,12 @@ public class BowlingGame {
 
     private char getRollOne(String frame) {
         char nextRoll = frame.charAt(0);
-        if(isGutterBall(nextRoll))
+        if (isGutterBall(nextRoll))
             nextRoll = '0';
+
         return nextRoll;
     }
+
     private boolean isGutterBall(char roll) {
         return String.valueOf(roll).equals(GUTTER_BALL);
     }
