@@ -18,6 +18,7 @@ public class BowlingGame {
 
         if(roll1 == '/' || roll2 == '/')
             return 10;
+
         if(roll1 == '-')
             roll1 = '0';
         if(roll2 == '-')
