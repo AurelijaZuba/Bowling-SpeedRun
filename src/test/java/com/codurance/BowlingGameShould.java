@@ -25,7 +25,8 @@ public class BowlingGameShould {
         return Stream.of(
                 Arguments.of("--|--|--|--|--|--|--|--|--|--|", 0),
                 Arguments.of("1-|--|--|--|--|--|--|--|--|--|", 1),
-                Arguments.of("11|--|--|--|--|--|--|--|--|--|", 2)
+                Arguments.of("11|--|--|--|--|--|--|--|--|--|", 2),
+                Arguments.of("12|--|--|--|--|--|--|--|--|--|", 3)
         );
     }
 }
