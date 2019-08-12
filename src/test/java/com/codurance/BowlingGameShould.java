@@ -18,11 +18,22 @@ public class BowlingGameShould {
         assertThat(actual).isEqualTo(expected);
     }
 
-
     @Test
     void score_one_for_single_pin() {
         int expected = 1;
         String scoreSheet = "1-|--|--|--|--|--|--|--|--|--|";
+
+        BowlingGame game = new BowlingGame();
+
+        int actual = game.score(scoreSheet);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void score_two_for_single_frame() {
+        int expected = 2;
+        String scoreSheet = "11|--|--|--|--|--|--|--|--|--|";
 
         BowlingGame game = new BowlingGame();
 
