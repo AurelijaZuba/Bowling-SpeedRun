@@ -35,7 +35,7 @@ public class BowlingGame {
     private int scoreSpecial(String thisFrame, String nextFrame) {
         int result = 0;
         if(isStrikeFrame(thisFrame)) {
-            return scoreFrameWithStrike();
+            return scoreFrameWithStrike(nextFrame);
         }
 
         if(isSpareFrame(thisFrame)){
@@ -44,8 +44,18 @@ public class BowlingGame {
         return result;
     }
 
-    private int scoreFrameWithStrike() {
-        return 10;
+    private int scoreFrameWithStrike(String nextFrame) {
+        char nextRoll = nextFrame.charAt(0);
+        if(isGutterBall(nextRoll))
+            nextRoll = '0';
+
+        char nextRoll1 = nextFrame.charAt(1);
+        if(isGutterBall(nextRoll1))
+            nextRoll1 = '0';
+
+        return 10 +
+                (Character.getNumericValue(nextRoll) +
+                        Character.getNumericValue(nextRoll1));
     }
 
     private int scoreFrameWithSpare(String nextFrame) {
