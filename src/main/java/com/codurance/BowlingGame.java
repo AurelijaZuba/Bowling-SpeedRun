@@ -2,7 +2,6 @@ package com.codurance;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 public class BowlingGame {
 
@@ -29,12 +28,19 @@ public class BowlingGame {
         if (thisFrame.isSpecialScore()) {
             Frame nextFrame = frames.get(i + 1);
             if (nextFrame.isStrikeFrame()) {
-                return (10 + 10 + Character.getNumericValue(frames.get(i + 2).getRollOne()));
+                return (10 + 10 + getThirdStrike(frames, i));
             }
             results += scoreSpecial(thisFrame, nextFrame);
             return results;
         }
         return thisFrame.scoreFrame();
+    }
+
+    private int getThirdStrike(List<Frame> frames, int i) {
+        final char c = frames.get(i + 2).getRollOne();
+        if(c == 'X')
+            return 10;
+        return Character.getNumericValue(c);
     }
 
     private int scoreSpecial(Frame thisFrame, Frame nextFrame) {
